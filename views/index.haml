@@ -1,0 +1,41 @@
+!!!
+%html
+  %head
+    %title Test widgets
+  %body
+    %h1 Hallo
+    - if @facebook_data
+      Hi, #{@graph['name']}
+
+      %h2 Here's your data:
+      %dl
+      - @graph.each do |k, v|
+        %dt= k
+        %dd= v
+      - if @friends
+        %h2 Here's your friends
+        %ul
+        - @friends['data'].each do |friend|
+          %li= friend['name']
+    - else
+      %fb:login-button
+
+    %fb:like(href="http://headflash.com:4567/" layout="standard" show_faces="true" width="450" action="like" colorscheme="light")
+
+
+    %div#fb-root
+      :javascript
+
+        var fbSession = null;
+
+        window.fbAsyncInit = function() {
+          FB.init({appId: '123624607654603', status: true, cookie: true,
+                   xfbml: true});
+
+        };
+        (function() {
+          var e = document.createElement('script'); e.async = true;
+          e.src = document.location.protocol +
+            '//connect.facebook.net/en_US/all.js';
+          document.getElementById('fb-root').appendChild(e);
+        }());
