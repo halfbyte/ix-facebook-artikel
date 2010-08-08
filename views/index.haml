@@ -1,13 +1,24 @@
 !!!
-%html
+%html{html_attrs}
   %head
-    %title Test widgets
+    %title Facebook Test
+    %meta(http-eqiv="Content-Type" content="text/html; charset=UTF-8")
+    %script(src="/javascripts/jquery-1.4.2.min.js" type="text/javascript")
   %body
-    %h1 Hallo
-    - if @facebook_data
-      Hi, #{@graph['name']}
+    %h1 Facebook for Websites Testbed
+    
+    #room-for-infos
+    
+    - if @access_token
+          
+      Hi, 
+      %span#user-name -LOADING-
 
       %h2 Here's your data:
+      
+      %pre
+        = @graph.to_yaml
+      
       %dl
       - @graph.each do |k, v|
         %dt= k
@@ -17,11 +28,17 @@
         %ul
         - @friends['data'].each do |friend|
           %li= friend['name']
-    - else
-      %fb:login-button
+          
+    %div
+      %fb:login-button(perms="email,user_birthday" show-faces="true")
+      
+    %div
+      %fb:facepile
 
-    %fb:like(href="http://headflash.com:4567/" layout="standard" show_faces="true" width="450" action="like" colorscheme="light")
+    %div
+      %fb:like(href="http://headflash.com:4567/" layout="standard" show_faces="true" width="450" action="like" colorscheme="light")
 
+    
 
     %div#fb-root
       :javascript
@@ -29,9 +46,21 @@
         var fbSession = null;
 
         window.fbAsyncInit = function() {
-          FB.init({appId: '123624607654603', status: true, cookie: true,
+          FB.init({appId: '#{@app_id}', status: true, cookie: true,
                    xfbml: true});
-
+          FB.Event.subscribe('auth.login', function(response) {
+            window.location.reload();
+          });
+          
+          
+          FB.getLoginStatus(function(response) {
+            if (response.session) {
+              FB.api('/me', function(response) {
+                $('#user-name').html(response.name);
+              });
+            } 
+          });
+          
         };
         (function() {
           var e = document.createElement('script'); e.async = true;
