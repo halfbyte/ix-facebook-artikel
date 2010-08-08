@@ -2,10 +2,28 @@
 %html
   %head
     %title Test widgets
+    %style(type="text/css" media="screen")
+      :sass
+        body
+          font-family: sans-serif
+          background-color: #fff
+          color: #000
+        ul.friends
+          padding: 0
+          margin: 0
+          list-style-type: none
+          li
+            display: inline
+            padding: 0
+            margin: 5px
   %body
     %h1 Hallo
-    - if @facebook_data
+    - if @access_token && @graph
       Hi, #{@graph['name']}
+
+      %form(action="/post" method="post")
+        %input(type="text" name="message")
+        %input(type="submit" value="Post to your wall")
 
       %h2 Here's your data:
       %dl
@@ -14,11 +32,18 @@
         %dd= v
       - if @friends
         %h2 Here's your friends
-        %ul
-        - @friends['data'].each do |friend|
-          %li= friend['name']
+        %ul.friends
+          - @friends['data'].each do |friend|
+            %li= friend['name']
     - else
-      %fb:login-button
+
+      %p
+        Use the FB-Login-Button
+      %p
+        %fb:login-button
+      %p
+        or
+        %a(href="/auth/facebook") login with OAuth2
 
     %fb:like(href="http://headflash.com:4567/" layout="standard" show_faces="true" width="450" action="like" colorscheme="light")
 
