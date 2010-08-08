@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang='en-US' xml:lang='en-US' xmlns='http://www.w3.org/1999/xhtml' xmlns:fb="http://www.facebook.com/2008/fbml">
+  <head>
+    <title>Facebook Test</title>
+    <meta property="og:title" content="Testing Open Graph Protocol" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="http://www.pixelpoke.de/opengraph.html" />
+    <meta property="og:image" content="http://www.pixelpoke.de/images/me.jpg" />
+    <meta property="og:site_name" content="The Pixel and the Poke" />
+    <meta property="fb:app_id" content='APPID' />
+  </head>
+  <body>       
+    <div>
+      <fb:like href='http://www.pixelpoke.de/opengraph.html'></fb:like>
+    </div>
+    <div id='fb-root'>
+      <script type='text/javascript'>
+        //<![CDATA[
+          var fbSession = null;
+          
+          window.fbAsyncInit = function() {
+            FB.init({appId: 'APPID', status: true, cookie: true,
+                     xfbml: true});
+            FB.Event.subscribe('auth.login', function(response) {
+              window.location.reload();
+            });
+          };
+          (function() {
+            var e = document.createElement('script'); e.async = true;
+            e.src = document.location.protocol +
+              '//connect.facebook.net/en_US/all.js';
+            document.getElementById('fb-root').appendChild(e);
+          }());
+        //]]>
+      </script>
+    </div>
+  </body>
+</html>

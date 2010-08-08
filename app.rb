@@ -27,10 +27,7 @@ end
 
 get '/auth/facebook/callback' do
   access_token = client.web_server.get_access_token(params[:code], :redirect_uri => redirect_uri)
-  user = JSON.parse(access_token.get('/me'))
   session['access_token'] = access_token.token
-  puts session['access_token']
-  puts access_token.token
   redirect "/"
 end
 
@@ -47,7 +44,7 @@ get '/' do
     puts @access_token.inspect
     begin
       @graph = JSON.parse(@access_token.get("/me"))
-      # @friends = JSON.parse(@access_token.get("/me/friends"))
+      @friends = JSON.parse(@access_token.get("/me/friends"))
     rescue => e
       puts e
       @facebook_data = @graph = @friends = nil
