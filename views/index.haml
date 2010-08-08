@@ -4,15 +4,29 @@
     %title Facebook Test
     %meta(http-eqiv="Content-Type" content="text/html; charset=UTF-8")
     %script(src="/javascripts/jquery-1.4.2.min.js" type="text/javascript")
+
+    %style(type="text/css" media="screen")
+      :sass
+        body
+          font-family: sans-serif
+          background-color: #fff
+          color: #000
+        ul.friends
+          padding: 0
+          margin: 0
+          list-style-type: none
+          li
+            display: inline
+            padding: 0
+            margin: 5px
   %body
-    %h1 Facebook for Websites Testbed
-    
-    #room-for-infos
-    
-    - if @access_token
-          
-      Hi, 
-      %span#user-name -LOADING-
+    %h1 Hallo
+    - if @access_token && @graph
+      Hi, #{@graph['name']}
+
+      %form(action="/post" method="post")
+        %input(type="text" name="message")
+        %input(type="submit" value="Post to your wall")
 
       %h2 Here's your data:
       
@@ -28,21 +42,27 @@
         %ul
         - @friends['data'].each do |friend|
           %li= friend['name']
+
+      %div
+        %fb:facepile
+
           
-    %div
-      %fb:login-button(perms="email,user_birthday" show-faces="true")
-      
-    %div
-      %fb:facepile
+    - else
+
+      %p
+        Use the FB-Login-Button
+      %p
+        %fb:login-button
+      %p
+        or
+        %a(href="/auth/facebook") login with OAuth2
 
     %div
       %fb:like(href="http://headflash.com:4567/" layout="standard" show_faces="true" width="450" action="like" colorscheme="light")
 
-    
 
     %div#fb-root
       :javascript
-
         var fbSession = null;
 
         window.fbAsyncInit = function() {
@@ -59,7 +79,7 @@
                 $('#user-name').html(response.name);
               });
             } 
-          });
+          }); 
           
         };
         (function() {
