@@ -1,0 +1,21 @@
+h1. Beispiel-Facebook-Anwendung für den Ix-Artikel
+
+Um die Anwendung auszuprobieren, sind die folgenden Voraussetzungen nötig:
+
+* Ruby in Version 1.8.7 oder neuer
+* Den Paketmanager rubygems
+* Die Gems 'sinatra', 'json', 'rest_client', 'haml', 'oauth2'
+
+Folgende Schritte sind zusätzlich nötig:
+
+* "Legen Sie eine neue Facebook-Anwendung bei Facebook an":http://developers.facebook.com/setup/
+* Konfigurieren Sie in dem "Connect"-Abschnitt der Anwendungseinstellungen 
+  die Connect-URL auf "http://localhost:4567"
+* Kopieren Sie die Datei facebook_example.yml nach facebook.yml
+* Fügen Sie die App-ID und das App-Secret in die facebook.yml ein
+
+Die Anwendung starten Sie auf der Kommandozeile mit
+
+$ ruby app.rb
+
+Danach können Sie die "Seite":http://localhost:4567 in ihrem Browser aufrufen.
